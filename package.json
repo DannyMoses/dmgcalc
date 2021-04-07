@@ -1,0 +1,22 @@
+{
+  "name": "dmgcalc",
+  "version": "1.0.0",
+  "description": "damage calculator webapp for Project Dragonfly",
+  "main": "index.js",
+  "scripts": {
+    "test": "runtest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/DannyMoses/dmgcalc.git"
+  },
+  "author": "Daniel Moses",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/DannyMoses/dmgcalc/issues"
+  },
+  "homepage": "https://github.com/DannyMoses/dmgcalc#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
