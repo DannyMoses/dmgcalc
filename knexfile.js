@@ -1,26 +1,19 @@
 // Update with your config settings.
 
+const fs = require('fs');
+let connString = JSON.parse(fs.readFileSync('config.json'))["psql_conn"];
+
 module.exports = {
 
   development: {
     client: 'postgresql',
-    connection: {
-	host : '127.0.0.1',
-	user : 'dmoses',
-	password : 'xd',
-	database : 'dmgcalc'
-	}
+    connection: connString
   },
 
 
   production: {
     client: 'postgresql',
-    connection: {
-    	host : '127.0.0.1',
-	user : 'dmoses',
-	password : 'dmoses',
-	database : 'dmgcalc'
-	}
+    connection: connString
   }
 
 };

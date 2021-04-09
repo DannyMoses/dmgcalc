@@ -4,9 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const fs = require('fs');
+let connString = JSON.parse(fs.readFileSync('config.json'))["psql_conn"];
+
 const knex = require('knex')({
 	client : 'pg',
-	connection :
+	connection : connString
+})
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -41,5 +45,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.listen(3000, () => {
+	console.log('Example app listening at port 3000');
+})
 
 module.exports = app;
