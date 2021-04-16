@@ -12,6 +12,8 @@ const knex = require('knex')({
 const baseQuery = knex('units');
 const queryRegex = /^<=|>=|<|>$/;
 const numRegex = /\d+/g;
+const properties = ["health", "name", "dexterity", "agility", "strength", "luck", "devotion", "skill", "fortitude", "class", "alignment"];
+const notInPropertiesError = { "status" : "ERROR", "message" : "attributes not in list of valid properties" };
 
 const filterBasedOnNumber = (field, symbol, number) => {
 	return (query) => {
@@ -35,8 +37,15 @@ router.get('/', function (req, res) {
 
 	if (req.query) {
 		console.log(req.query);
+		for (const key in req.query) {
+			if (!(key in properties)) {
+				res.send(notInPropertiesError);
+				return;
+			}
+		}
 		knex.select('*').from('units').where((builder) => {
 			for (const key in req.query) {
+
 				if (req.query[key].match(queryRegex)) {
 					console.log('number!');
 					console.log(key, req.query[key].match(queryRegex)[0], req.query[key].match(numRegex)[0]);
@@ -59,6 +68,28 @@ router.get('/', function (req, res) {
 		res.send(data);
 	});
 })
+
+
+router.post('/', function(req, res) {
+	console.log(req.body);
+	var keys = Object.keys(req.body);
+	console.log(keys);
+	keys.forEach(k => {
+		console.log(k);
+		if (properties.indexOf(k) === -1) {
+			console.log("ERROR", k);
+			res.json(notInPropertiesError);
+			return;
+		}
+	})
+
+	knex('units').insert({name: req.body['name'], health : req.body['health'], 'class' : req.body['class'], 'dexterity' : req.body['dexterity'] }).then((result) => {
+		console.log(result);
+	});
+
+	res.send({ "status" : "SUCCESS", "inserted" : req.body});
+})
+
 
 
 
